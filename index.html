@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="Demo project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    
+    <script type="text/javascript">
+
+    angular.module('bindExample', [])
+        .controller('ExampleController', ['$scope', '$http', function($scope, $http) {
+
+        $http.get('.\\json\\dev.json')
+               .then(function(resDev){
+                  $scope.allDev = resDev.data;                
+                });
+
+        $http.get('.\\json\\Phase.json')
+               .then(function(resPhase){
+                  $scope.allPhase = resPhase.data;                
+                });
+
+        $http.get('.\\json\\Property.json')
+               .then(function(resProperty){
+                  $scope.allProperty = resProperty.data;                
+                });
+
+        $scope.allColours = [ 
+            {"devname": "Prince of Wales", "devcolour": "#946e4b","devaltcolour2": "#dfd3c9","devaltcolour3": "#f5f2ef","keylinecolour": "#c9b7a5","gradienttop": "#ac8e72","gradientbottom": "#946e4b","contactformleft": "#cabaa2","contactformleft": "#aca08c","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"},
+            {"devname": "Kidbrooke Village", "devcolour": "#16620","devaltcolour2": "#b3d1bc","devaltcolour3": "#e8f1eb","keylinecolour": "#80b38f","gradienttop": "#398851","gradientbottom": "#16620","contactformleft": "#5d8970","contactformleft": "#7cb393","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"},
+            {"devname": "London Dock", "devcolour": "#333233","devaltcolour2": "#c2c1c2","devaltcolour3": "#c4c4c4","keylinecolour": "#999999","gradienttop": "#605f60","gradientbottom": "#333233","contactformleft": "#979697","contactformleft": "#727272","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"},
+            {"devname": "250 City Road", "devcolour": "#4c5053","devaltcolour2": "#c9cacb","devaltcolour3": "#efeff0","keylinecolour": "#a5a7a9","gradienttop": "#838283","gradientbottom": "#4c5053","contactformleft": "#a4a5a7","contactformleft": "#848687","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"},
+            {"devname": "Fiennes Park ", "devcolour": "#1a1015","devaltcolour2": "#bab7b8","devaltcolour3": "#eae9ea","keylinecolour": "#8d8789","gradienttop": "#47383d","gradientbottom": "#0b0708","contactformleft": "#8a8586","contactformleft": "#605b5d","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"},
+            {"devname": "Buckingham suite", "devcolour": "#695f5e","devaltcolour2": "#d2cfcf","devaltcolour3": "#f1f1f1","keylinecolour": "#b4afaf","gradienttop": "#8a8281","gradientbottom": "#695f5e","contactformleft": "#b3aead","contactformleft": "#ababac","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"},
+            {"devname": "Silk Woods", "devcolour": "#a8a9ad","devaltcolour2": "#e5e5e6","devaltcolour3": "#f7f7f8","keylinecolour": "#d3d4d6","gradienttop": "#bbbcbf","gradientbottom": "#a8a9ad","contactformleft": "#c4c4c6","contactformleft": "#d3d3d5","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"},
+            {"devname": "Brewery Wharf", "devcolour": "#6d6f73","devaltcolour2": "#d3d4d5","devaltcolour3": "#f2f2f2","keylinecolour": "#e9eaeb","gradienttop": "#8d8f92","gradientbottom": "#6d6f73","contactformleft": "#b4b5b8","contactformleft": "#9b9c9e","textcolour": "#6c6c6c","black": "#000000","white": "#ffffff","backgroundcolour": "#ffffff"}
+        ];
+
+    }]);
+    </script>
+    <style type="text/css">
+    .achievements-wrapper { height: 300px; overflow: auto; }
+    </style>
+
+</head>
+<body ng-app="bindExample">
+    Berkeley group all properties scraped from the web, filter by section, background colour and title.
+        <div ng-controller="ExampleController" class="span12">
+
+            <label>Type text to filter results:
+                <input type="text" ng-model="bindExample.searchText">
+            </label>
+            <h3>Developments</h3>
+            <a data-toggle="collapse" href="#devCollapse" 
+                aria-expanded="false" aria-controls="devCollapse">
+                Show all
+            </a>
+            <table class="table table-bordered table-striped table-hover" id="devCollapse">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Sections</th>
+                        <th>Background</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="objDev in allDev | filter:bindExample.searchText">
+                        <td>{{objDev.id}}</td>
+                        <td>{{objDev.title}}</td>
+                        <td>{{objDev.sections}} accordions {{objDev.accordion}}</td>
+                        <td style="background-color:{{objDev.colourcode}}"> {{objDev.colourcode}}</td>
+                        <td>
+                            <a href="{{objDev.url1}}">Link</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Phase</h3>
+            <a data-toggle="collapse" href="#phaseCollapse" 
+                aria-expanded="false" aria-controls="phaseCollapse">
+                Show all
+            </a>
+            <table class="table table-bordered table-striped table-hover" id="phaseCollapse">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Sections</th>
+                        <th>Background</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="objPhase in allPhase | filter:bindExample.searchText">
+                        <td>{{objPhase.id}}</td>
+                        <td>{{objPhase.title}}</td>
+                        <td>{{objPhase.sections}} accordions {{objDev.accordion}}</td>
+                        <td style="background-color:{{objPhase.colourcode}}"> {{objPhase.colourcode}}</td>
+                        <td>
+                            <a href="{{objPhase.url1}}">Link</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Property</h3>
+            <a data-toggle="collapse" href="#propCollapse" 
+                aria-expanded="false" aria-controls="propCollapse">
+                Show all
+            </a>            
+            <table class="table table-bordered table-striped table-hover" id="propCollapse">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Sections</th>
+                        <th>Background</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="objProp in allProperty | filter:bindExample.searchText">
+                        <td>{{objProp.id}}</td>
+                        <td>{{objProp.title}}</td>
+                        <td>{{objProp.sections}} accordions {{objDev.accordion}}</td>
+                        <td style="background-color:{{objProp.colourcode}}"> {{objProp.colourcode}}</td>
+                        <td>
+                            <a href="{{objProp.url1}}">Link</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</body>
+
+</html>
